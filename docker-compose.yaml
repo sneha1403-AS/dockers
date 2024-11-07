@@ -1,52 +1,25 @@
-version: "3.7"
-services:
-  # App 1
-  app1:
-    container_name: knote-app1
-    image: learnitguide/knotejs:1.0
-    environment:
-      MONGO_URL: mongodb://mongo1_db_host:27017/dev
-    ports:
-      - "80:3000"
-    depends_on:
-      - mongo1
-    links:
-      - mongo1:mongo1_db_host
-  
-  mongo1:
-    container_name: knote-mongo1
-    image: mongo
-  
-  # App 2
-  app2:
-    container_name: knote-app2
-    image: learnitguide/knotejs:1.0
-    environment:
-      MONGO_URL: mongodb://mongo2_db_host:27017/dev
-    ports:
-      - "81:3000"
-    depends_on:
-      - mongo2
-    links:
-      - mongo2:mongo2_db_host
-  
-  mongo2:
-    container_name: knote-mongo2
-    image: mongo
+version: '3.8'
 
-  # App 3
-  app3:
-    container_name: knote-app3
-    image: learnitguide/knotejs:1.0
-    environment:
-      MONGO_URL: mongodb://mongo3_db_host:27017/dev
+services:
+  flask-app:
+    image: python:3.8-slim
+    container_name: flask-app
     ports:
-      - "82:3000"
-    depends_on:
-      - mongo3
-    links:
-      - mongo3:mongo3_db_host
-  
-  mongo3:
-    container_name: knote-mongo3
-    image: mongo
+      - "5000:5000"
+
+  node-app:
+    image: node:14
+    container_name: node-app
+    ports:
+      - "3000:3000"
+
+  mysql-db:
+    image: mysql:8
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
